@@ -1,0 +1,8 @@
+awkward
+boost-histogram
+hydra
+matplotlib
+mplhep
+notebook
+numpy
+uproot

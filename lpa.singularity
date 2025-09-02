@@ -1,0 +1,98 @@
+Bootstrap: docker
+From: almalinux:9
+
+
+
+%files
+    py-requirements.txt /opt/py-requirements.txt
+
+
+%post
+
+# Install python packages for the analysis workflow
+    python3 -m pip install --upgrade pip
+    python3 -m pip install -r /opt/py-requirements.txt
+    python3 -m pip install --upgrade numba numpy uproot jupyterlab
+
+
+# Install required packages
+   # Install development tools and dependencies
+    set -e
+    dnf group install -y "Development Tools"
+    dnf install -y \
+    epel-release
+    dnf install -y \
+        cmake \
+        expat-devel \
+        gcc-c++ \
+        make \
+        xerces-c-devel \
+        git \
+        wget
+
+    dnf install -y qt5-qtbase-devel qt5-qttools-devel qt5-qtx11extras-devel qt5-qtbase-gui
+
+    dnf install -y mesa-libGL-devel mesa-libGLU-devel libX11-devel libXmu-devel libXi-devel freeglut-devel
+    dnf install -y xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi
+
+    dnf install -y xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-utils
+
+    export CMAKE_PREFIX_PATH=/usr/lib64/qt5:/usr/lib64/cmake
+
+    # Create installation directories
+    mkdir -p /opt/geant4/build
+    mkdir -p /opt/geant4/install
+
+    # Download and install Geant4
+    cd /opt/geant4
+    wget https://gitlab.cern.ch/geant4/geant4/-/archive/v11.3.0/geant4-v11.3.0.tar.gz
+    tar xzf geant4-v11.3.0.tar.gz
+    cd build
+
+   # Configure and build Geant4
+    cmake ../geant4-v11.3.0 \
+        -DCMAKE_INSTALL_PREFIX=/opt/geant4/install \
+        -DCMAKE_PREFIX_PATH="/usr/lib64/cmake:/usr/lib64/qt5" \
+        -DGEANT4_INSTALL_DATA=ON \
+        -DGEANT4_USE_GDML=ON \
+        -DGEANT4_USE_SYSTEM_EXPAT=ON \
+        -DGEANT4_BUILD_MULTITHREADED=ON \
+        -DGEANT4_USE_QT=ON \
+        -DGEANT4_USE_OPENGL_X11=ON
+
+    # Build and install
+    make -j$(nproc)
+    make install
+
+    # Cleanup
+    cd /opt/geant4
+    rm -rf build geant4-v11.3.0.tar.gz
+    rm -f /root/*.pkg.tar*
+    rm -f /root/*.tar.gz 
+
+%files
+
+%environment
+source /opt/geant4/install/bin/geant4.sh
+export PATH="/opt/geant4/install/bin:${PATH}"
+export G4INSTALL="/opt/geant4/install"
+export G4EXAMPLES="/opt/geant4/install/share/Geant4/examples"
+export G4NEUTRONHPDATA="/opt/geant4/install/share/Geant4/data/G4NDL4.7.1"
+export G4LEDATA="/opt/geant4/install/share/Geant4/data/G4EMLOW8.6.1"
+export G4LEVELGAMMADATA="/opt/geant4/install/share/Geant4/data/PhotonEvaporation6.1"
+export G4RADIOACTIVEDATA="/opt/geant4/install/share/Geant4/data/RadioactiveDecay6.1.2"
+export G4PARTICLEXSDATA="/opt/geant4/install/share/Geant4/data/G4PARTICLEXS4.1"
+export G4PIIDATA="/opt/geant4/install/share/Geant4/data/G4PII1.3"
+export G4REALSURFACEDATA="/opt/geant4/install/share/Geant4/data/RealSurface2.2"
+export G4SAIDXSDATA="/opt/geant4/install/share/Geant4/data/G4SAIDDATA2.0"
+export G4ABLADATA="/opt/geant4/install/share/Geant4/data/G4ABLA3.3"
+export G4INCLDATA="/opt/geant4/install/share/Geant4/data/G4INCL1.2"
+export G4ENSDFSTATEDATA="/opt/geant4/install/share/Geant4/data/G4ENSDFSTATE3.0"
+
+
+%runscript
+    exec "$@"
+
+%help
+Geant4-11.3.0-1
+Built with system xerces-c for GDML support

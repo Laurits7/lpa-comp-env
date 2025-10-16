@@ -24,6 +24,7 @@ If you have already access to a pre-exisiting image, you can enter the environme
 If, however, you wish to submit batch jobs, it is useful to have a 'run script' such as the example one [run.sh](run.sh) in this repository. With this script you can run your code in the LPA environment simply by doing for example `./run.sh python3 my_python_script.py`
 
 
+### 1.2 Download the pre-built image:
 
 
 

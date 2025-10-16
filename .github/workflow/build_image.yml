@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "lpa.singularity"
+      - "py-requirements.txt"
+
   pull_request:
 
 jobs:

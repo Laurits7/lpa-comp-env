@@ -12,7 +12,7 @@ on:
 
 jobs:
   ci:
-    runs-on: almalinux-latest
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
@@ -23,8 +23,7 @@ jobs:
 
       - name: Install Singularity
         run: |
-          sudo dnf install -y epel-release
-          sudo dnf install -y singularity-container
+          sudo apt install -y singularity-container
 
       - name: Build Singularity image
         if: github.ref == 'refs/heads/main'

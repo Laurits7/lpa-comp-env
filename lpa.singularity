@@ -9,10 +9,29 @@ From: almalinux:9
 
 %post
 
+# Install main python tools
+    dnf install -y python3 python3-pip python3-devel
+    dnf install -y epel-release
+    dnf install -y \
+        autoconf \
+        automake \
+        pkgconf-pkg-config \
+        gcc \
+        gcc-c++ \
+        gcc-gfortran \
+        clang \
+        clang-tools-extra \
+        valgrind \
+        make \
+        cmake \
+        libtool
+
 # Install python packages for the analysis workflow
     python3 -m pip install --upgrade pip
+    python3 -m pip install wheel
     python3 -m pip install -r /opt/py-requirements.txt
     python3 -m pip install --upgrade numba numpy uproot jupyterlab
+
 
 
 # Install required packages
@@ -22,10 +41,7 @@ From: almalinux:9
     dnf install -y \
     epel-release
     dnf install -y \
-        cmake \
         expat-devel \
-        gcc-c++ \
-        make \
         xerces-c-devel \
         git \
         wget

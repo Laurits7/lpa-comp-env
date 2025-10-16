@@ -1,6 +1,6 @@
 awkward
 boost-histogram
-hydra
+hydra-core
 matplotlib
 mplhep
 notebook

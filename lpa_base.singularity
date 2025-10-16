@@ -57,10 +57,10 @@ From: almalinux:9
         python3-devel
 
 # Install python packages for the analysis workflow
-    python3 -m pip install --upgrade pip --no-cache-dir
-    python3 -m pip install wheel --no-cache-dir
-    python3 -m pip install -r /opt/py-requirements.txt --no-cache-dir
-    python3 -m pip install --upgrade numba numpy uproot jupyterlab --no-cache-dir
+    python3 -m pip install --upgrade pip
+    python3 -m pip install wheel
+    python3 -m pip install -r /opt/py-requirements.txt
+    python3 -m pip install --upgrade numba numpy uproot jupyterlab
 
 # Finally update all and remove cache to reduce image size
     dnf update -y

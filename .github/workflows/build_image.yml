@@ -31,7 +31,7 @@ jobs:
               squashfs-tools \
               libseccomp-dev \
               pkg-config \
-              libfuse2
+              libfuse2 \
               wget
           wget https://github.com/sylabs/singularity/releases/download/v4.0.0/singularity-ce_4.0.0-jammy_amd64.deb
           sudo dpkg -i singularity-ce_4.0.0-jammy_amd64.deb

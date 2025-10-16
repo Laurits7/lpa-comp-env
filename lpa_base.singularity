@@ -1,0 +1,68 @@
+Bootstrap: docker
+From: almalinux:9
+
+%files
+    py-requirements.txt /opt/py-requirements.txt
+
+%post
+
+
+# Install development tools and dependencies & enable EPEL and update base packages
+    set -e
+    dnf install -y epel-release
+    dnf update -y
+
+# Development tools and compilers
+    dnf group install -y "Development Tools"
+    dnf install -y \
+        gcc-gfortran \
+        clang \
+        clang-tools-extra \
+        valgrind \
+        cmake
+
+# Libraries needed for Geant4 / C++ build
+    dnf install -y \
+        expat-devel \
+        xerces-c-devel \
+        qt5-qtbase-devel \
+        qt5-qttools-devel \
+        qt5-qtx11extras-devel \
+        qt5-qtbase-gui \
+        mesa-libGL-devel \
+        mesa-libGLU-devel \
+        libX11-devel \
+        libXmu-devel \
+        libXi-devel \
+        freeglut-devel
+
+# X11 fonts and server utilities
+    dnf install -y \
+        xorg-x11-fonts-misc \
+        xorg-x11-fonts-75dpi \
+        xorg-x11-fonts-100dpi \
+        xorg-x11-server-Xorg \
+        xorg-x11-xauth \
+        xorg-x11-utils
+
+# Git, wget and other utilities
+    dnf install -y \
+        git \
+        wget
+
+# Python and Python development tools
+    dnf install -y \
+        python3 \
+        python3-pip \
+        python3-devel
+
+# Install python packages for the analysis workflow
+    python3 -m pip install --upgrade pip --no-cache-dir
+    python3 -m pip install wheel --no-cache-dir
+    python3 -m pip install -r /opt/py-requirements.txt --no-cache-dir
+    python3 -m pip install --upgrade numba numpy uproot jupyterlab --no-cache-dir
+
+# Finally update all and remove cache to reduce image size
+    dnf update -y
+    dnf clean all
+    rm -rf /var/cache/dnf

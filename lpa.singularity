@@ -1,58 +1,7 @@
 Bootstrap: docker
-From: almalinux:9
-
-
-
-%files
-    py-requirements.txt /opt/py-requirements.txt
-
+From: docker://ghcr.io/Laurits7/lpa-comp-env/lpa_base:latest
 
 %post
-
-# Install main python tools
-    dnf install -y python3 python3-pip python3-devel
-    dnf install -y epel-release
-    dnf install -y \
-        autoconf \
-        automake \
-        pkgconf-pkg-config \
-        gcc \
-        gcc-c++ \
-        gcc-gfortran \
-        clang \
-        clang-tools-extra \
-        valgrind \
-        make \
-        cmake \
-        libtool
-
-# Install python packages for the analysis workflow
-    python3 -m pip install --upgrade pip
-    python3 -m pip install wheel
-    python3 -m pip install -r /opt/py-requirements.txt
-    python3 -m pip install --upgrade numba numpy uproot jupyterlab
-
-
-
-# Install required packages
-   # Install development tools and dependencies
-    set -e
-    dnf group install -y "Development Tools"
-    dnf install -y \
-    epel-release
-    dnf install -y \
-        expat-devel \
-        xerces-c-devel \
-        git \
-        wget
-
-    dnf install -y qt5-qtbase-devel qt5-qttools-devel qt5-qtx11extras-devel qt5-qtbase-gui
-
-    dnf install -y mesa-libGL-devel mesa-libGLU-devel libX11-devel libXmu-devel libXi-devel freeglut-devel
-    dnf install -y xorg-x11-fonts-misc xorg-x11-fonts-75dpi xorg-x11-fonts-100dpi
-
-    dnf install -y xorg-x11-server-Xorg xorg-x11-xauth xorg-x11-utils
-
     export CMAKE_PREFIX_PATH=/usr/lib64/qt5:/usr/lib64/cmake
 
     # Create installation directories
@@ -89,26 +38,26 @@ From: almalinux:9
 %files
 
 %environment
-source /opt/geant4/install/bin/geant4.sh
-export PATH="/opt/geant4/install/bin:${PATH}"
-export G4INSTALL="/opt/geant4/install"
-export G4EXAMPLES="/opt/geant4/install/share/Geant4/examples"
-export G4NEUTRONHPDATA="/opt/geant4/install/share/Geant4/data/G4NDL4.7.1"
-export G4LEDATA="/opt/geant4/install/share/Geant4/data/G4EMLOW8.6.1"
-export G4LEVELGAMMADATA="/opt/geant4/install/share/Geant4/data/PhotonEvaporation6.1"
-export G4RADIOACTIVEDATA="/opt/geant4/install/share/Geant4/data/RadioactiveDecay6.1.2"
-export G4PARTICLEXSDATA="/opt/geant4/install/share/Geant4/data/G4PARTICLEXS4.1"
-export G4PIIDATA="/opt/geant4/install/share/Geant4/data/G4PII1.3"
-export G4REALSURFACEDATA="/opt/geant4/install/share/Geant4/data/RealSurface2.2"
-export G4SAIDXSDATA="/opt/geant4/install/share/Geant4/data/G4SAIDDATA2.0"
-export G4ABLADATA="/opt/geant4/install/share/Geant4/data/G4ABLA3.3"
-export G4INCLDATA="/opt/geant4/install/share/Geant4/data/G4INCL1.2"
-export G4ENSDFSTATEDATA="/opt/geant4/install/share/Geant4/data/G4ENSDFSTATE3.0"
+    source /opt/geant4/install/bin/geant4.sh
+    PATH="/opt/geant4/install/bin:${PATH}"
+    G4INSTALL="/opt/geant4/install"
+    G4EXAMPLES="/opt/geant4/install/share/Geant4/examples"
+    G4NEUTRONHPDATA="/opt/geant4/install/share/Geant4/data/G4NDL4.7.1"
+    G4LEDATA="/opt/geant4/install/share/Geant4/data/G4EMLOW8.6.1"
+    G4LEVELGAMMADATA="/opt/geant4/install/share/Geant4/data/PhotonEvaporation6.1"
+    G4RADIOACTIVEDATA="/opt/geant4/install/share/Geant4/data/RadioactiveDecay6.1.2"
+    G4PARTICLEXSDATA="/opt/geant4/install/share/Geant4/data/G4PARTICLEXS4.1"
+    G4PIIDATA="/opt/geant4/install/share/Geant4/data/G4PII1.3"
+    G4REALSURFACEDATA="/opt/geant4/install/share/Geant4/data/RealSurface2.2"
+    G4SAIDXSDATA="/opt/geant4/install/share/Geant4/data/G4SAIDDATA2.0"
+    G4ABLADATA="/opt/geant4/install/share/Geant4/data/G4ABLA3.3"
+    G4INCLDATA="/opt/geant4/install/share/Geant4/data/G4INCL1.2"
+    G4ENSDFSTATEDATA="/opt/geant4/install/share/Geant4/data/G4ENSDFSTATE3.0"
 
 
 %runscript
     exec "$@"
 
 %help
-Geant4-11.3.0-1
-Built with system xerces-c for GDML support
+    Geant4-11.3.0-1
+    Built with system xerces-c for GDML support

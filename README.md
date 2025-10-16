@@ -11,7 +11,7 @@ git clone git@github.com:Laurits7/lpa-comp-env.git
 cd lpa-comp-env
 ```
 
-### 1.1a Building the image
+### 1.1a Building the image manually
 
 If you do not have a pre-existing Singularity image, you need to build it:
 ```bash

@@ -41,7 +41,7 @@ jobs:
       - name: Build Singularity image
         if: github.ref == 'refs/heads/main'
         run: |
-          singularity build lpa.simg lpa.singularity
+          singularity build  --fakeroot lpa.simg lpa.singularity
 
       - name: Log in to GHCR
         if: github.ref == 'refs/heads/main'

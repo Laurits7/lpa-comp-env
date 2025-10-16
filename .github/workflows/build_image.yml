@@ -41,7 +41,9 @@ jobs:
         env:
           SINGULARITY_REMOTE_TOKEN: ${{ secrets.SINGULARITY_REMOTE_TOKEN }}
         run: |
-          singularity remote login --token "$SINGULARITY_REMOTE_TOKEN"
+          echo "${{ secrets.SINGULARITY_REMOTE_TOKEN }}" > token.txt
+          singularity remote login --tokenfile token.txt
+          rm token.txt
 
       - name: Build Singularity image via remote
         if: github.ref == 'refs/heads/main'

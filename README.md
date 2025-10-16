@@ -1,6 +1,7 @@
 # LPA computational environment (lpa-comp-env)
 This is the repository for setting up computational environment for the LPA project. For this we use [Singularity/Apptainer](https://apptainer.org/). The image is created from the definitions and requirements listed in this repository. Currently there is support for creating the Geant4 simulations and running the analysis in Python.
 
+The Singularity image of the environment is also automatically built and uploaded to the Github Container Registry (GHCR) at [add_link]
 
 ## 1. Setup
 

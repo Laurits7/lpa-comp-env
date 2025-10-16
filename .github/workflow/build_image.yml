@@ -1,0 +1,38 @@
+name: Singularity CI & GHCR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write   # needed to push to GHCR
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Singularity
+        run: |
+          sudo dnf install -y epel-release
+          sudo dnf install -y singularity-container
+
+      - name: Build Singularity image
+        if: github.ref == 'refs/heads/main'
+        run: |
+          singularity build lpa.simg lpa.singularity
+
+      - name: Log in to GHCR
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | singularity remote login -u ${{ github.actor }} --password-stdin oras://ghcr.io
+
+      - name: Push Singularity image to GHCR
+        if: github.ref == 'refs/heads/main'
+        run: |
+          singularity push lpa.simg oras://ghcr.io/${{ github.repository }}/lpa:latest

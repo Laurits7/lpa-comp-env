@@ -37,11 +37,16 @@ jobs:
           sudo dpkg -i singularity-ce_4.0.0-jammy_amd64.deb
           sudo apt-get install -f  # To fix any missing dependencies
 
+      - name: Log in to Sylabs Cloud
+        env:
+          SINGULARITY_REMOTE_TOKEN: ${{ secrets.SINGULARITY_REMOTE_TOKEN }}
+        run: |
+          singularity remote login --token "$SINGULARITY_REMOTE_TOKEN"
 
-      - name: Build Singularity image
+      - name: Build Singularity image via remote
         if: github.ref == 'refs/heads/main'
         run: |
-          singularity build  --fakeroot lpa.simg lpa.singularity
+          singularity build --remote lpa.simg lpa.singularity
 
       - name: Log in to GHCR
         if: github.ref == 'refs/heads/main'

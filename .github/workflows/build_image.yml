@@ -23,7 +23,8 @@ jobs:
 
       - name: Install Singularity
         run: |
-          sudo apt install -y singularity-container
+          sudo apt update
+          sudo apt install -y singularity-ce
 
       - name: Build Singularity image
         if: github.ref == 'refs/heads/main'

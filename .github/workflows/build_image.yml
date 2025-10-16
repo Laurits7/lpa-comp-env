@@ -21,10 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install Singularity
+      - name: Install SingularityCE
         run: |
-          sudo apt update
-          sudo apt install -y singularity-ce
+          sudo apt-get update
+          wget https://github.com/sylabs/singularity/releases/download/v4.0.0/singularity-ce_4.0.0-jammy_amd64.deb
+          sudo dpkg -i singularity-ce_4.0.0-jammy_amd64.deb
+          sudo apt-get install -f  # To fix any missing dependencies
+
 
       - name: Build Singularity image
         if: github.ref == 'refs/heads/main'

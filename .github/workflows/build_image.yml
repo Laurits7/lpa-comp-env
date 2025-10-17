@@ -48,10 +48,10 @@ jobs:
       - name: Install Sylabs Remote Build Client
         run: |
           VERSION=0.9.20
-          curl -L -o scs-build-client.tar.gz \
-            https://github.com/sylabs/scs-build-client/releases/download/v${VERSION}/scs-build-client_${VERSION}_linux_amd64.tar.gz
-          tar -xzf scs-build-client.tar.gz
-          sudo mv scs-build-client /usr/local/bin/scs-build
+          URL="https://github.com/sylabs/scs-build-client/releases/download/v${VERSION}/scs-build-client_${VERSION}_linux_amd64.tar.gz"
+          curl -L -o scs-build.tar.gz "$URL"
+          tar -xzf scs-build.tar.gz
+          sudo mv scs-build /usr/local/bin/scs-build
           sudo chmod +x /usr/local/bin/scs-build
           scs-build version
     

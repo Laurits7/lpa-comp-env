@@ -60,7 +60,7 @@ jobs:
         env:
           SYLABS_AUTH_TOKEN: ${{ secrets.SINGULARITY_REMOTE_TOKEN }}
         run: |
-          scs-build build --download lpa_base.singularity lpa_base.simg
+          scs-build build lpa_base.singularity lpa_base.simg
 
       - name: Push base Singularity image to GHCR
         if: github.ref == 'refs/heads/main'

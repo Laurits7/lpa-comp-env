@@ -66,7 +66,8 @@ jobs:
       - name: Push base Singularity image to GHCR
         if: github.ref == 'refs/heads/main'
         run: |
-          singularity push lpa_base.simg oras://ghcr.io/${{ github.repository }}/lpa_base:latest
+          REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          singularity push lpa_base.simg oras://ghcr.io/${REPO_LC}/lpa_base:latest
 
       - name: Build main Singularity image via remote
         if: github.ref == 'refs/heads/main'
@@ -76,4 +77,5 @@ jobs:
       - name: Push main Singularity image to GHCR
         if: github.ref == 'refs/heads/main'
         run: |
-          singularity push lpa.simg oras://ghcr.io/${{ github.repository }}/lpa:latest
+          REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          singularity push lpa.simg oras://ghcr.io/${REPO_LC}/lpa:latest

@@ -44,7 +44,14 @@ jobs:
             }
           }
           EOF
-  
+
+      - name: Login to GHCR
+        run: |
+          apptainer registry login \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            docker://ghcr.io
+
       - name: Install Sylabs Remote Build Client
         run: |
           VERSION=0.9.20
@@ -54,7 +61,7 @@ jobs:
           sudo mv scs-build /usr/local/bin/scs-build
           sudo chmod +x /usr/local/bin/scs-build
           scs-build version
-    
+
       - name: Build image remotely on Sylabs Cloud
         if: github.ref == 'refs/heads/main'
         env:

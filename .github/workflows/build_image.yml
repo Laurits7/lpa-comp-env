@@ -45,10 +45,18 @@ jobs:
           singularity remote login --tokenfile token.txt
           rm token.txt
 
-      - name: Log in to GHCR for Singularity
-        if: github.ref == 'refs/heads/main'
+      - name: Authenticate GHCR for Singularity
         run: |
-          singularity registry login ghcr.io -u "${{ github.actor }}" --password "${{ secrets.GITHUB_TOKEN }}"
+          mkdir -p ~/.singularity/docker-config
+          cat > ~/.singularity/docker-config/config.json <<EOF
+          {
+            "auths": {
+              "ghcr.io": {
+                "auth": "$(echo -n "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" | base64)"
+              }
+            }
+          }
+          EOF
 
       - name: Build base Singularity image via remote
         if: github.ref == 'refs/heads/main'

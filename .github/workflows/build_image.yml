@@ -23,19 +23,10 @@ jobs:
 
       - name: Install SingularityCE
         run: |
-          sudo apt-get update && sudo apt-get install -y \
-              build-essential \
-              libssl-dev \
-              uuid-dev \
-              libgpgme11-dev \
-              squashfs-tools \
-              libseccomp-dev \
-              pkg-config \
-              libfuse2 \
-              wget
-          wget https://github.com/sylabs/singularity/releases/download/v4.0.0/singularity-ce_4.0.0-jammy_amd64.deb
-          sudo dpkg -i singularity-ce_4.0.0-jammy_amd64.deb
-          sudo apt-get install -f  # To fix any missing dependencies
+          sudo add-apt-repository -y ppa:apptainer/ppa
+          sudo apt-get update && sudo apt install -y \
+              software-properties-common
+              apptainer
 
       - name: Log in to Sylabs Cloud
         env:
@@ -46,36 +37,30 @@ jobs:
           rm token.txt
 
       - name: Authenticate GHCR for Singularity
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mkdir -p ~/.singularity/docker-config
-          cat > ~/.singularity/docker-config/config.json <<EOF
-          {
-            "auths": {
-              "ghcr.io": {
-                "auth": "$(echo -n "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" | base64)"
-              }
-            }
-          }
-          EOF
+          singularity registry login ghcr.io -u "$GITHUB_ACTOR" -p "$GITHUB_TOKEN"
 
-      - name: Build base Singularity image via remote
-        if: github.ref == 'refs/heads/main'
-        run: |
-          singularity build --remote lpa_base.simg lpa_base.singularity
+      # - name: Build base Singularity image via remote
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     singularity build --remote lpa_base.simg lpa_base.singularity
 
-      - name: Push base Singularity image to GHCR
-        if: github.ref == 'refs/heads/main'
-        run: |
-          REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          singularity push lpa_base.simg oras://ghcr.io/${REPO_LC}/lpa_base:latest
+      # - name: Push base Singularity image to GHCR
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+      #     singularity push lpa_base.simg oras://ghcr.io/${REPO_LC}/lpa_base:latest
 
-      - name: Build main Singularity image via remote
-        if: github.ref == 'refs/heads/main'
-        run: |
-          singularity build --remote lpa.simg lpa.singularity
+      # - name: Build main Singularity image via remote
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     singularity build --remote lpa.simg lpa.singularity
 
-      - name: Push main Singularity image to GHCR
-        if: github.ref == 'refs/heads/main'
-        run: |
-          REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          singularity push lpa.simg oras://ghcr.io/${REPO_LC}/lpa:latest
+      # - name: Push main Singularity image to GHCR
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+      #     singularity push lpa.simg oras://ghcr.io/${REPO_LC}/lpa:latest

@@ -45,6 +45,11 @@ jobs:
           singularity remote login --tokenfile token.txt
           rm token.txt
 
+      - name: Log in to GHCR for Singularity
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | singularity registry login oras://ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: Build base Singularity image via remote
         if: github.ref == 'refs/heads/main'
         run: |
@@ -53,7 +58,7 @@ jobs:
       - name: Push base Singularity image to GHCR
         if: github.ref == 'refs/heads/main'
         run: |
-          singularity push lpa_base.simg oras://ghcr.io/${{ github.repository }}/lpa_base:latest --username $GITHUB_ACTOR --password-stdin <<<"$GITHUB_TOKEN"
+          singularity push lpa_base.simg oras://ghcr.io/${{ github.repository }}/lpa_base:latest
 
       - name: Build main Singularity image via remote
         if: github.ref == 'refs/heads/main'
@@ -63,4 +68,4 @@ jobs:
       - name: Push main Singularity image to GHCR
         if: github.ref == 'refs/heads/main'
         run: |
-          singularity push lpa.simg oras://ghcr.io/${{ github.repository }}/lpa:latest --username $GITHUB_ACTOR --password-stdin <<<"$GITHUB_TOKEN"
+          singularity push lpa.simg oras://ghcr.io/${{ github.repository }}/lpa:latest

@@ -1,4 +1,4 @@
-Bootstrap: docker
+Bootstrap: oras
 From: ghcr.io/laurits7/lpa-comp-env/lpa_base:latest
 
 %post

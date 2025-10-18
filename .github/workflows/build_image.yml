@@ -75,12 +75,12 @@ jobs:
           REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           apptainer push lpa_base.simg oras://ghcr.io/${REPO_LC}/lpa_base:latest
 
-      - name: Build image remotely on Sylabs Cloud
+      - name: Build image remotely on GH Action
         if: github.ref == 'refs/heads/main'
         env:
           SYLABS_AUTH_TOKEN: ${{ secrets.SINGULARITY_REMOTE_TOKEN }}
         run: |
-          scs-build build lpa.singularity lpa.simg
+          apptainer build lpa.singularity lpa.simg
 
       - name: Push base Singularity image to GHCR
         if: github.ref == 'refs/heads/main'

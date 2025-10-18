@@ -80,7 +80,7 @@ jobs:
         env:
           SYLABS_AUTH_TOKEN: ${{ secrets.SINGULARITY_REMOTE_TOKEN }}
         run: |
-          apptainer build lpa.singularity lpa.simg
+          apptainer build lpa.simg lpa.singularity
 
       - name: Push base Singularity image to GHCR
         if: github.ref == 'refs/heads/main'

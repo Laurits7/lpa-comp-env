@@ -1,7 +1,9 @@
 # LPA computational environment (lpa-comp-env)
+![Geant4](https://img.shields.io/badge/geant4-v11.3.0-blue?style=for-the-badge)
+ 
 This is the repository for setting up computational environment for the LPA project. For this we use [Singularity/Apptainer](https://apptainer.org/). The image is created from the definitions and requirements listed in this repository. Currently there is support for creating the Geant4 simulations and running the analysis in Python.
 
-The Singularity image of the environment is also automatically built and uploaded to the Github Container Registry (GHCR) at [add_link].
+The Singularity image of the environment is also automatically built and uploaded to the Github Container Registry (GHCR). In order to download this prebuilt image, see [Sec. 1.2](#12-download-the-pre-built-image).
 
 ## 1. Setup
 
@@ -26,6 +28,7 @@ If, however, you wish to submit batch jobs, it is useful to have a 'run script' 
 
 ### 1.2 Download the pre-built image:
 
-
-
-
+```bash
+apptainer pull oras://ghcr.io/laurits7/lpa-comp-env/lpa:latest
+mv lpa_latest.sif lpa.simg
+```

@@ -13,18 +13,19 @@ git clone git@github.com:Laurits7/lpa-comp-env.git
 cd lpa-comp-env
 ```
 
-### 1.1a Building the image manually
+The image is built in two phases:
+- first we build the base image with all the necessary packages needed for Geant4 and our python analyses. The first phase requires the use of the parameter `--fakeroot` in the build.
+- in the second phase we build the Geant4 from scratch. Here we do not need to use `--fakeroot` anymore.
+
+
+### 1.1 Building the image manually
 
 If you do not have a pre-existing Singularity image, you need to build it:
 ```bash
-singularity build --fakeroot lpa.simg lpa.singularity
+singularity build --fakeroot lpa_base.simg lpa_base.singularity
+singularity build lpa.simg lpa.singularity
 ```
-
-### 1.1b Having a pre-existing image
-If you have already access to a pre-exisiting image, you can enter the environment by doing `apptainer shell /path/to/lpa.simg`
-
-If, however, you wish to submit batch jobs, it is useful to have a 'run script' such as the example one [run.sh](run.sh) in this repository. With this script you can run your code in the LPA environment simply by doing for example `./run.sh python3 my_python_script.py`
-
+Currently, the lpa_base used for lpa uses the lpa_base coming from GHCR, though you can easily change it to use your local build.
 
 ### 1.2 Download the pre-built image:
 
@@ -32,3 +33,8 @@ If, however, you wish to submit batch jobs, it is useful to have a 'run script' 
 apptainer pull oras://ghcr.io/laurits7/lpa-comp-env/lpa:latest
 mv lpa_latest.sif lpa.simg
 ```
+
+### 1.3 Having a pre-existing image
+If you have already access to a pre-exisiting image (either having built it manually or having downloaded it from the GHCR), you can enter the environment by doing `apptainer shell /path/to/lpa.simg`
+
+If, however, you wish to submit batch jobs, it is useful to have a 'run script' such as the example one [run.sh](run.sh) in this repository. With this script you can run your code in the LPA environment simply by doing for example `./run.sh python3 my_python_script.py`

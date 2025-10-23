@@ -22,8 +22,8 @@ From: almalinux:9
         cmake
 
 # Install clang-tidy for formatting:
-    sudo wget -qO /usr/local/bin/clang-tidy https://github.com/cpp-linter/clang-tools-static-binaries/releases/latest/download/clang-tidy-20_linux-amd64
-    sudo chmod a+x /usr/local/bin/clang-tidy
+    wget -qO /usr/local/bin/clang-tidy https://github.com/cpp-linter/clang-tools-static-binaries/releases/latest/download/clang-tidy-20_linux-amd64
+    chmod a+x /usr/local/bin/clang-tidy
 
 # Libraries needed for Geant4 / C++ build
     dnf install -y \

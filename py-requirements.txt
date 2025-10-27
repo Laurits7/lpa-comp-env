@@ -5,4 +5,8 @@ matplotlib
 mplhep
 notebook
 numpy
+scipy
+h5py
+pandas
+seaborn
 uproot

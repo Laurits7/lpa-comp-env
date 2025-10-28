@@ -1,5 +1,5 @@
 Bootstrap: oras
-From: ghcr.io/laurits7/lpa-comp-env/lpa_base:latest
+From: ghcr.io/muraytech/comp-env/lpa_base:latest
 
 %post
     export CMAKE_PREFIX_PATH=/usr/lib64/qt5:/usr/lib64/cmake

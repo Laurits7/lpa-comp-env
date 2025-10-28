@@ -83,7 +83,7 @@ jobs:
         run: |
           apptainer build lpa.simg lpa.singularity
 
-      - name: Push base Singularity image to GHCR
+      - name: Push main Singularity image to GHCR
         if: github.ref == 'refs/heads/main'
         run: |
           REPO_LC=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')

@@ -26,6 +26,7 @@ From: ghcr.io/muraytech/comp-env/lpa_base:latest
         -DGEANT4_USE_OPENGL_X11=ON
 
     # Build and install
+    make VERBOSE=1
     make -j$(nproc)
     make install
 

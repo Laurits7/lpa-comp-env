@@ -55,6 +55,16 @@ From: almalinux:9
         xorg-x11-xauth \
         xorg-x11-utils
 
+# Install dependencies required for Python 3.12
+    dnf install -y \
+        openssl-devel \
+        libffi-devel \
+        sqlite-devel \
+        readline-devel \
+        bzip2-devel \
+        xz-devel \
+        zlib-devel
+
 # Python and Python development tools
     # Build Python 3.12
     PYTHON_VERSION=3.12.0

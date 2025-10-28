@@ -9,7 +9,7 @@ The Singularity image of the environment is also automatically built and uploade
 
 In order to setup the computational environment needed for the LPA project:
 ```bash
-git clone git@github.com:Laurits7/lpa-comp-env.git
+git clone git@github.com:muraytech/comp-env.git
 cd lpa-comp-env
 ```
 
@@ -30,7 +30,7 @@ Currently, the lpa_base used for lpa uses the lpa_base coming from GHCR, though 
 ### 1.2 Download the pre-built image:
 
 ```bash
-apptainer pull oras://ghcr.io/laurits7/lpa-comp-env/lpa:latest
+apptainer pull oras://ghcr.io/muraytech/comp-env/lpa:latest
 mv lpa_latest.sif lpa.simg
 ```
 

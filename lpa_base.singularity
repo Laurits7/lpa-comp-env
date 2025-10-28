@@ -56,8 +56,19 @@ From: almalinux:9
         xorg-x11-utils
 
 # Python and Python development tools
-    dnf module list python
-    dnf module enable python310 -y
+    # Build Python 3.12
+    PYTHON_VERSION=3.12.0
+    wget https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tgz
+    tar xvf Python-$PYTHON_VERSION.tgz
+    cd Python-$PYTHON_VERSION
+    ./configure --enable-optimizations --prefix=/opt/python
+    make -j$(nproc)
+    make install
+
+    # Make Python3.12 default
+    ln -s /opt/python/bin/python3 /usr/local/bin/python3
+    ln -s /opt/python/bin/pip3 /usr/local/bin/pip3
+
     dnf install -y \
         python3 \
         python3-pip \
